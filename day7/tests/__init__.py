@@ -28,6 +28,7 @@ $ ls
 5626152 d.ext
 7214296 k		
 """
+	
 	def get_test_filesystem(self):
 		return read_stream(StringIO(self.TEST_STREAM))
 
