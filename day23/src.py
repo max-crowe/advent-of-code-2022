@@ -1,29 +1,13 @@
 from copy import deepcopy
 from enum import IntFlag
 from itertools import cycle
+from common import BaseMap, Point
 
 class Directions(IntFlag):
 	N = 2
 	E = 4
 	S = 8
 	W = 16
-
-class Point:
-	def __init__(self, x, y):
-		self.x = x
-		self.y = y
-		
-	def __str__(self):
-		return str((self.x, self.y))
-		
-	def __repr__(self):
-		return str(self)
-		
-	def __hash__(self):
-		return hash((self.x, self.y))
-		
-	def __eq__(self, other):
-		return (self.x, self.y) == (other.x, other.y)
 	
 class Occupant:
 	def __init__(self, map_, initial_coords):
@@ -55,9 +39,9 @@ class Occupant:
 				if not self.map.is_occupied(proposal_coords, direction):
 					return proposal_coords
 
-class Map:
+class Map(BaseMap):
 	def __init__(self):
-		self.rows = []
+		super().__init__()
 		self.occupants = []
 		self.min_bounding_point = None
 		self.max_bounding_point = None
@@ -67,12 +51,6 @@ class Map:
 		
 	def __str__(self):
 		return '\n'.join(''.join('.' if cell is None else '#' for cell in row) for row in self.rows)
-		
-	def __getitem__(self, coords):
-		return self.rows[coords.y][coords.x]
-		
-	def __setitem__(self, coords, occupant):
-		self.rows[coords.y][coords.x] = occupant
 		
 	@classmethod
 	def from_input(cls, input_data, padding):
